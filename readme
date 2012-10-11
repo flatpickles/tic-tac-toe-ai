@@ -1,0 +1,33 @@
+tic-tac-toe AI (man1)
+
+  Credit where credit is due: Xeda112358 suggests this method of representing
+board state at http://www.omnimaga.org/index.php?topic=13070.0; I've built
+on his suggestions to more efficiently and reliably win or tie almost any game.
+
+  In this state representation, a large matrix represents each possible position
+(the rows) and which possible win states it contributes to (the columns, 1 if it
+contributes, 0 if not). Throughout a game, an 8 entry array is maintained; when
+the user plays a space, the row in the matrix corresponding to this space is added
+to the game array, and when the computer plays the corresponding row is subtracted.
+Using this state representation, it's easy to identify when the computer wins (a
+-3 in the game state array) or when the user wins (3), or when one is about to
+win (-2, 2), etc.
+
+  Using this, the computer prioritizes certain actions. First, it will win if it
+can. If it can't win, it will block any attempt by the user to win. If there's
+nothing to block, it'll first try to create a split (a setup along two possible
+win configurations), or at least a single setup. If none of these more advanced
+strategies can be followed, it will prioritize the center, then the corners,
+then the middle edges. It will also defend against both types of splits (attempts
+to set up a win in two directions), those using the edges of the board and those
+using the diagonal. I'm pretty sure this AI is unbeatable, but if you find a way
+to conquer it, please let me know!
+
+Throughout the program, cells on the board are referenced like so:
+
+y = 2 | 6  7  8
+    1 | 3  4  5
+    0 | 0  1  2
+      |--------
+    x = 0  1  2
+
